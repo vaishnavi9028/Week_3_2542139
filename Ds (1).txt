@@ -1,0 +1,77 @@
+#include <stdio.h>
+#define MAX 5
+
+int queue[MAX];
+int front = -1, rear = -1;
+
+/* Add Student */
+void enqueue() {
+    int roll;
+    if ((rear + 1) % MAX == front) {
+        printf("Queue Full\n");
+        return;
+    }
+
+    printf("Enter Roll No: ");
+    scanf("%d", &roll);
+
+    if (front == -1)
+        front = 0;
+
+    rear = (rear + 1) % MAX;
+    queue[rear] = roll;
+    printf("Student Added\n");
+}
+
+/* Distribute Bus Pass */
+void dequeue() {
+    if (front == -1) {
+        printf("Queue Empty\n");
+        return;
+    }
+
+    printf("Bus Pass given to Roll No: %d\n", queue[front]);
+
+    if (front == rear)
+        front = rear = -1;
+    else
+        front = (front + 1) % MAX;
+}
+
+/* Show Waiting Students */
+void display() {
+    int i;
+    if (front == -1) {
+        printf("No Students Waiting\n");
+        return;
+    }
+
+    printf("Waiting Students:\n");
+    i = front;
+    while (1) {
+        printf("%d\n", queue[i]);
+        if (i == rear)
+            break;
+        i = (i + 1) % MAX;
+    }
+}
+
+int main() {
+    int choice;
+
+    do {
+        printf("\n1.Add Student\n2.Distribute Bus Pass\n3.Show Waiting Students\n4.Exit\n");
+        printf("Enter choice: ");
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1: enqueue(); break;
+            case 2: dequeue(); break;
+            case 3: display(); break;
+            case 4: printf("Exit\n"); break;
+            default: printf("Invalid Choice\n");
+        }
+    } while (choice != 4);
+
+    return 0;
+}
